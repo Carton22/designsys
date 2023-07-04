@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Post</title>
+    <style>
+        body {
+            font-family: "San Francisco", Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+            text-align: center; /* 文字居中 */
+        }
+        form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        display: inline-block; /* 让表单水平居中 */
+        text-align: center; /* 居中对齐 */
+        }
+
+        textarea {
+            width: 80%; /* 缩小文本框宽度 */
+            height: 80px; /* 缩小文本框高度 */
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            padding: 5px;
+            box-sizing: border-box; /* 让 padding 和 border 不会增加尺寸 */
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            margin-top: 20px;
+            list-style-type: none;
+            padding: 0;
+            text-align: center; /* 列表文字居中 */
+        }
+
+        li {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: left; /* 保持列表中的文本居左 */
+        }
+
+        p {
+            color: #999;
+        }
+
+        .clear-button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .clear-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <form method="POST" action="{% url 'create_post' %}">
+        {% csrf_token %}
+        <textarea name="text" placeholder="Enter your post"></textarea>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+        {% if posts %}
+    <ul>
+        {% for post in posts %}
+        <li>{{ post.text }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No posts available</p>
+    {% endif %}
+
+    <form method="POST" action="{% url 'clear_post' %}">
+        {% csrf_token %}
+        <input type="submit" value="Clear Post" class="clear-button">
+    </form>
+</body>
+</html>
