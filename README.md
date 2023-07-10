@@ -1,18 +1,31 @@
-# designsys
-This is a demo to realize a multi-person real-time interactive system.
-## Phrase 1
-time⏰:7.3-.10
-Goal🚩：realize the synchronous communication and data synchronization across multi webpages. The design assets include text, images, videos，3D meshes and other things.
+# 项目说明
 
-### Progressive results
+### 部署方法
+1. 安装基础环境
+```
+pip install -r requirements.txt
+```
 
-Date📅：7.3
+2. 初始化数据库
+```
+python manage.py migrate
+```
 
-Results:send and receive text successfully, but we need to sync and update manually.
+3. 运行项目
+```
+python manage.py runserver
+```
 
-Technologies:Django 
+4. 进入网址：http://127.0.0.1:8000/即可
 
-Things to do: 
+### 运行效果 
 
-- Add images.
-- Sync and update automatically.
+可在多个网页同步显示文字
+
+### 待实现功能
+
+前端界面优化
+
+图片同步显示
+
+数据文件暂存中转

@@ -59,6 +59,13 @@
             color: #999;
         }
 
+        #display {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
         .clear-button {
             background-color: #dc3545;
             color: #fff;
@@ -76,25 +83,40 @@
     </style>
 </head>
 <body>
-    <form method="POST" action="{% url 'create_post' %}">
-        {% csrf_token %}
-        <textarea name="text" placeholder="Enter your post"></textarea>
-        <br>
-        <input type="submit" value="Submit">
-    </form>
-        {% if posts %}
-    <ul>
-        {% for post in posts %}
-        <li>{{ post.text }}</li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>No posts available</p>
-    {% endif %}
+    <textarea id="chat-log" disabled rows="20"></textarea><br/>
+    <input id="text-input" type="text"/><br/>
+    <input id="submit" type="button" value="Send"/>
+    <h1>Display Post</h1>
 
-    <form method="POST" action="{% url 'clear_post' %}">
-        {% csrf_token %}
-        <input type="submit" value="Clear Post" class="clear-button">
-    </form>
+    <script>
+        var chatSocket = new WebSocket('ws://' + window.location.host + '/ws/chat/');
+
+        chatSocket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            var message = data['message'];
+            document.querySelector('#chat-log').value += (message + '\n');
+        };
+
+        chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#text-input').focus();
+        document.querySelector('#text-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#submit').click();
+        }
+        };
+
+        document.querySelector('#submit').onclick = function(e) {
+        var messageInputDom = document.querySelector('#text-input');
+        var message = messageInputDom.value;
+        chatSocket.send(JSON.stringify({
+            'message': message
+        }));
+
+        messageInputDom.value = '';
+        };
+    </script>
 </body>
 </html>
