@@ -16,7 +16,7 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-4. 进入网址：http://127.0.0.1:8000/即可
+4. 进入网址：http://127.0.0.1:8000/
 
 ### 运行效果 
 
